@@ -442,7 +442,7 @@ function render(){
 }
 function setDev(d){S.dev=d;document.querySelectorAll('[data-dev]').forEach(x=>x.classList.toggle('on',x.dataset.dev===d));$('#device').className='device '+d;render()}
 document.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>setDev(b.dataset.dev));
-render();
+if(window.innerWidth<760)setDev('iphone');else render();
 </script>
 </body>
 </html>
