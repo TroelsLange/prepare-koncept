@@ -155,16 +155,18 @@ function wheelGo(t) { const e = WHEEL.find(x => x.t === t); if (e && e.go) go(`#
 /* ---------- forbered (mødedeltager) ---------- */
 function vMoede(r) {
   const { m, n, it, k } = r;
+  const cc = Object.keys(S.comments).filter(x => x.startsWith(m.id)).reduce((a, x) => a + S.comments[x].length, 0);
   return shell(`<div class="meet">
-    <aside class="side"><div class="lbl">${m.date} · ${m.time}</div><div class="mt">${m.name}</div>
-      ${m.items.map((x, i) => `<button class="scard ${n === i + 1 ? 'on' : ''}" onclick="S.tab='${S.tab}';go('#/moede/${m.id}/${i + 1}')"><span class="circ">${x.lock ? ic.lock : ic.doc}${x.bilag.length ? `<b>${x.bilag.length}</b>` : ''}</span><span class="tt">${i + 1}. ${x.t}<small>${x.lock ? 'Lukket punkt' : x.type + (x.pages ? ' · ' + x.pages + (x.pages === 1 ? ' side' : ' sider') : '')}</small></span><span class="chev">${ic.chev}</span></button>`).join('')}
-      <button class="scard" onclick="S.tab='kom';render()"><span class="circ">${ic.chat}<b>${Object.keys(S.comments).filter(x => x.startsWith(m.id)).reduce((a, x) => a + S.comments[x].length, 0)}</b></span><span class="tt">Overblik<small>Noter og kommentarer</small></span><span class="chev">${ic.chev}</span></button>
+    <aside class="side"><div class="smeet"><h2>${m.name}</h2><div class="mrow">${fi.clock}<span>${m.date} <i>${m.time.replace(' – ', ' - ')}</i></span></div><div class="mrow">${fi.pin}${m.place}</div></div>
+      <div class="alist">${m.items.map((x, i) => `<button class="scard ${n === i + 1 ? 'on' : ''}" onclick="go('#/moede/${m.id}/${i + 1}')"><span class="circ">${x.lock ? fi.lock : i + 1}${x.bilag.length ? `<b>${x.bilag.length}</b>` : ''}</span><span class="tt">${x.t}<small>${x.lock ? 'Lukket punkt' : x.type + (x.pages ? ' · ' + x.pages + (x.pages === 1 ? ' side' : ' sider') : '')}</small></span><span class="chev">${ic.chev}</span></button>`).join('')}</div>
+      <button class="scard ov" onclick="S.tab='kom';render()"><span class="circ">${ic.chat}${cc ? `<b>${cc}</b>` : ''}</span><span class="tt">Overblik<small>Noter og kommentarer</small></span><span class="chev">${ic.chev}</span></button>
     </aside>
     <section class="docwrap">
       <div class="doctools">
-        <button class="ib" onclick="go('#/')" title="Til overblik">${ic.back}</button><span>${m.date} ${m.time.split(' ')[0]}</span>
-        <span class="arrows"><button ${n === 1 ? 'disabled' : ''} onclick="go('#/moede/${m.id}/${n - 1}')" title="Forrige punkt">${ic.up}</button><button ${n === m.items.length ? 'disabled' : ''} onclick="go('#/moede/${m.id}/${n + 1}')" title="Næste punkt">${ic.down}</button></span>
-        <span class="t">Punkt ${n}</span>
+        <button class="cbtn" onclick="go('#/')" title="Til overblik">${ic.back}</button>
+        <span class="arrows"><button class="cbtn" ${n === 1 ? 'disabled' : ''} onclick="go('#/moede/${m.id}/${n - 1}')" title="Forrige punkt">${ic.up}</button><button class="cbtn" ${n === m.items.length ? 'disabled' : ''} onclick="go('#/moede/${m.id}/${n + 1}')" title="Næste punkt">${ic.down}</button></span>
+        <span class="dt">Punkt ${n} af ${m.items.length}</span>
+        <span class="t"><b>${n}.</b>${it.t}</span>
         <button class="ib" style="color:var(--violet)" onclick="S.tab='ai';render()" title="AI-resumé">${ic.spark}</button>
         <button class="ib hm" onclick="${it.bilag.length ? `openBilag(0)` : `toast('Ingen bilag på dette punkt')`}" title="Bilag">${ic.pdf}</button>
         <button class="ib hm" onclick="S.hl=!S.hl;render()" title="Vis/skjul overstregninger">${ic.book}</button>
@@ -190,7 +192,7 @@ function page(m, n, it, k) {
     <ol>${it.ind.map(x => `<li>${x}</li>`).join('')}</ol>
     <h4>Beskrivelse af sagen:</h4>${it.desc.map(p => `<p>${p}</p>`).join('')}
     ${it.econ ? `<h4>Økonomi:</h4><p>${it.econ}</p>` : ''}
-    ${it.bilag.length ? `<h4>Bilag:</h4><div class="bilag">${it.bilag.map((b, i) => `<button class="bil" onclick="openBilag(${i})">${ic.pdf}${i + 1}. ${b[0]}${b[1] ? ` (${b[1]} s.)` : ''}</button>`).join('')}</div>` : ''}
+    ${it.bilag.length ? `<h4>Bilag:</h4><div class="bilag">${it.bilag.map((b, i) => `<button class="bil" onclick="openBilag(${i})">${ic.pdf}${i + 1}. ${b[0]}${b[1] ? `<small>${b[1]} sider</small>` : ''}</button>`).join('')}</div>` : ''}
     ${S.approved[k] ? `<h4>Beslutning:</h4><p><span class="mark-g">${S.drafts[k] || it.decision}</span></p>` : ''}
   </div>`;
 }
@@ -214,8 +216,8 @@ function pop(m, n, it, k) {
     b = `<div class="to">To: ${m.name} (alle medlemmer)</div>${S.comments[k].length ? S.comments[k].map(c => `<div class="meta"><span>${c.time}</span><span>${c.who}</span></div><div class="bub ${c.who === 'Dig' ? 'me' : 'other'}">${esc(c.txt)}</div>`).join('') : '<div class="sub">Ingen kommentarer endnu.</div>'}`;
     compose = `<div class="compose"><input id="c" placeholder="Ny kommentar" onkeydown="if(event.key==='Enter')addComment()"><button class="send" onclick="addComment()">Send</button></div>`;
   }
-  const head = { ai: '✦ AI-resumé', ask: '✦ Spørg sagen', kom: 'Del kommentar' }[S.tab];
-  return `<aside class="pop"><div class="ph">${head}<button class="plus" onclick="S.tab='kom';render();setTimeout(()=>$('#c')&&$('#c').focus(),50)" title="Ny kommentar">+</button></div>
+  const head = { ai: '<span class="spark">✦</span> AI-resumé', ask: '<span class="spark">✦</span> Spørg sagen', kom: 'Del kommentar' }[S.tab];
+  return `<aside class="pop"><div class="ph">${head}<button class="plus cbtn" onclick="S.tab='kom';render();setTimeout(()=>$('#c')&&$('#c').focus(),50)" title="Ny kommentar">${I('<path d="M12 5v14M5 12h14"/>')}</button></div>
     <div class="seg">${[['ai', 'Resumé'], ['ask', 'Spørg sagen'], ['kom', 'Kommentarer']].map(t => `<button class="${S.tab === t[0] ? 'on' : ''}" onclick="S.tab='${t[0]}';render()">${t[1]}</button>`).join('')}</div>
     <div class="pbody" id="pbody">${b}</div>${compose}</aside>`;
 }
