@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prepare – konceptprototype</title>
+<style>
+:root{
+  --navy:#0e2240; --navy2:#16305a; --ink:#1b2433; --muted:#6b7686; --line:#e3e7ee;
+  --bg:#f4f6fa; --card:#fff; --teal:#1fb5a8; --teal-soft:#e3f6f4; --rose:#e85d75; --rose-soft:#fde9ed;
+  --amber:#f2a33a; --amber-soft:#fdf1df; --blue:#2f6fe4; --blue-soft:#e7effd; --violet:#7a5af5; --violet-soft:#efeafe;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#dfe4ec;color:var(--ink);font-size:14px}
+button{font:inherit;cursor:pointer}
+/* Presenter bar */
+.pbar{display:flex;align-items:center;gap:12px;padding:12px 20px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pbar .ttl{font-weight:700}
+.pbar .badge{background:var(--amber-soft);color:#9a5b00;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.3px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.steps button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;color:var(--muted)}
+.steps button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.devtog{display:flex;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.devtog button{border:0;background:#fff;padding:6px 12px;color:var(--muted)}
+.devtog button.on{background:var(--teal);color:#fff}
+.stage{display:flex;justify-content:center;padding:24px 16px 8px}
+.device{background:#111;border-radius:34px;padding:14px;box-shadow:0 20px 50px rgba(14,34,64,.25);transition:width .3s}
+.device.ipad{width:min(1180px,100%)}
+.device.iphone{width:410px;border-radius:46px}
+.screen{background:var(--bg);border-radius:22px;overflow:hidden;height:720px;display:flex;flex-direction:column}
+.device.iphone .screen{border-radius:34px;height:800px}
+.notes{max-width:1180px;margin:10px auto 30px;padding:0 16px}
+.notes details{background:#fff;border-radius:12px;padding:12px 16px;border:1px solid var(--line)}
+.notes summary{font-weight:700;cursor:pointer}
+.notes p{margin:8px 0 0;color:#3a4556;line-height:1.5}
+/* App chrome */
+.appbar{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:12px 18px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.2px}
+.logo .mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--teal),var(--blue));display:grid;place-items:center;font-size:13px}
+.appbar .org{opacity:.75;font-size:13px}
+.appbar .sp{flex:1}
+.appbar .ai-pill{background:rgba(255,255,255,.12);border-radius:20px;padding:5px 10px;font-size:12px}
+.avatar{width:30px;height:30px;border-radius:50%;background:#f2c94c;color:var(--navy);display:grid;place-items:center;font-weight:700;font-size:12px}
+.body{flex:1;display:flex;min-height:0}
+.side{width:270px;background:#fff;border-right:1px solid var(--line);overflow:auto;flex-shrink:0}
+.main{flex:1;overflow:auto;padding:22px}
+.panel{width:330px;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;min-height:0}
+.device.iphone .body{flex-direction:column;overflow:auto}
+.device.iphone .side{display:none}
+.device.iphone .panel{width:auto;border-left:0;border-top:1px solid var(--line)}
+.device.iphone .main{overflow:visible;padding:16px}
+.device.iphone .grid2{grid-template-columns:1fr}
+.device.iphone .hide-m{display:none}
+.mtabs{display:none}
+.device.iphone .mtabs{display:flex;gap:6px;padding:10px 16px 0;overflow:auto}
+.mtabs button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:5px 10px;font-size:12px;white-space:nowrap}
+.mtabs button.on{background:var(--navy);color:#fff}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:16px;margin:22px 0 10px}
+h3{font-size:14px;margin:0 0 6px}
+.sub{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.row{display:flex;align-items:center;gap:10px}
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;display:inline-block}
+.t-teal{background:var(--teal-soft);color:#0d7d73}.t-rose{background:var(--rose-soft);color:#b8324a}.t-amber{background:var(--amber-soft);color:#9a5b00}
+.t-blue{background:var(--blue-soft);color:#1f4fae}.t-violet{background:var(--violet-soft);color:#5236c9}.t-grey{background:#eef0f4;color:#5b6575}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600}
+.btn-p{background:var(--teal);color:#fff}.btn-n{background:var(--navy);color:#fff}.btn-g{background:#eef1f6;color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+/* overview */
+.mtg{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:10px;cursor:pointer;transition:.15s}
+.mtg:hover{border-color:var(--teal);box-shadow:0 3px 12px rgba(31,181,168,.12)}
+.date{width:52px;text-align:center;border-radius:10px;background:var(--blue-soft);padding:6px 0;flex-shrink:0}
+.date b{display:block;font-size:20px;color:var(--navy)}.date span{font-size:11px;color:var(--muted);text-transform:uppercase}
+.mtg .info{flex:1}
+.stat{display:flex;gap:10px;flex-wrap:wrap}
+.stat .card{flex:1;min-width:120px;padding:12px}
+.stat b{font-size:22px;display:block}
+.aibox{background:linear-gradient(135deg,#f3f0ff,#e9f7f6);border:1px solid #dcd6fb;border-radius:14px;padding:16px}
+.spark{color:var(--violet);font-weight:700}
+/* sidebar agenda */
+.side .hd{padding:16px;border-bottom:1px solid var(--line)}
+.item{padding:12px 16px;border-bottom:1px solid #f0f2f6;cursor:pointer;display:flex;gap:10px}
+.item:hover{background:#f7f9fc}
+.item.on{background:var(--teal-soft);box-shadow:inset 3px 0 0 var(--teal)}
+.num{width:24px;height:24px;border-radius:50%;background:#eef1f6;display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
+.item.on .num{background:var(--teal);color:#fff}
+.item .tt{font-size:13px;line-height:1.35}
+.item .meta{font-size:11px;color:var(--muted);margin-top:3px}
+.doc p{line-height:1.6;color:#2c3646}
+.doc .sec{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 4px}
+.bilag{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.bil{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff;font-size:12px}
+.bil .ic{width:22px;height:26px;border-radius:3px;background:var(--rose-soft);color:var(--rose);display:grid;place-items:center;font-size:9px;font-weight:800}
+.hl{background:#fff4c2;border-radius:3px;padding:0 2px}
+.note-inline{border-left:3px solid var(--amber);background:var(--amber-soft);padding:8px 10px;border-radius:6px;font-size:12px;margin:10px 0}
+/* panel tabs */
+.ptabs{display:flex;border-bottom:1px solid var(--line)}
+.ptabs button{flex:1;border:0;background:none;padding:12px 4px;color:var(--muted);font-weight:600;font-size:12px;border-bottom:2px solid transparent}
+.ptabs button.on{color:var(--navy);border-bottom-color:var(--teal)}
+.pbody{flex:1;overflow:auto;padding:16px}
+.device.iphone .pbody{overflow:visible}
+.src{font-size:11px;color:var(--blue);background:var(--blue-soft);border-radius:6px;padding:1px 6px;margin-left:4px;white-space:nowrap}
+.ai-list{margin:8px 0 0;padding-left:18px}.ai-list li{margin-bottom:8px;line-height:1.45}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{padding:10px 12px;border-radius:12px;line-height:1.45;font-size:13px;max-width:92%}
+.msg.u{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+.msg.a{align-self:flex-start;background:#f2f4f8;border-bottom-left-radius:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid #d9d2fb;background:#faf8ff;color:#5236c9;border-radius:16px;padding:5px 10px;font-size:12px}
+.ask{display:flex;gap:6px;padding:12px;border-top:1px solid var(--line)}
+.ask input{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit}
+.typing{display:inline-flex;gap:3px}.typing i{width:6px;height:6px;border-radius:50%;background:#9aa3b2;animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.3}50%{opacity:1}}
+.hist{border:1px dashed #cfd6e2;border-radius:10px;padding:10px;margin-top:10px;font-size:12px}
+/* live */
+.vote{display:flex;gap:10px;margin:12px 0}
+.vote .card{flex:1;text-align:center;padding:12px}
+.vote b{font-size:26px;display:block}
+.draft{background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:12px;line-height:1.55;font-size:13px}
+.action{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:10px}
+.action .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;flex-shrink:0;font-size:13px}
+.action .st{margin-left:auto;font-size:12px;white-space:nowrap}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.flow .node{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.flow .arr{color:var(--muted)}
+.done-ok{color:#0d7d73;font-weight:700}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #cfd6e2;border-top-color:var(--teal);border-radius:50%;animation:s .7s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+/* tracker */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid #f0f2f6;vertical-align:middle}
+.bar{height:6px;background:#eef1f6;border-radius:4px;overflow:hidden;width:90px}.bar i{display:block;height:100%;background:var(--teal)}
+.search{display:flex;gap:8px;margin-bottom:12px}
+.search input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+.res{border-left:3px solid var(--violet);background:#faf8ff;padding:10px 12px;border-radius:8px;margin-top:8px;font-size:13px;line-height:1.5}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;transition:.3s;opacity:0;z-index:9}
+.toast.on{transform:translateX(-50%);opacity:1}
+.ring text{font-size:9px;fill:var(--muted)}
+.lock{font-size:11px}
+</style>
+</head>
+<body>
+
+<div class="pbar">
+  <span class="ttl">Prepare 2027</span><span class="badge">KONCEPTPROTOTYPE</span>
+  <div class="devtog"><button class="on" data-dev="ipad">iPad</button><button data-dev="iphone">iPhone</button></div>
+  <div class="steps" id="steps"></div>
+</div>
+
+<div class="stage"><div class="device ipad" id="device"><div class="screen" id="screen"></div></div></div>
+
+<div class="notes"><details open><summary>Talepunkter til denne skærm</summary><p id="talk"></p></details></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const S={screen:'oversigt',item:3,tab:'ai',dev:'ipad',chat:[],decided:false,minutesOk:false,actions:'idle',mtab:'doc'};
+const STEPS=[['oversigt','1 · Overblik'],['moede','2 · Forbered'],['live','3 · Mødet & beslutning'],['handling','4 · Beslutning → handling'],['opfolgning','5 · Opfølgning']];
+const TALK={
+ oversigt:'Politikeren åbner Prepare – nu også på iPhone. AI giver et personligt overblik over ugens møder og læsebyrden. Møderne kommer automatisk fra kommunens årshjul i Plandisc, så planlægning og mødeforberedelse hænger sammen fra start.',
+ moede:'Kendt Prepare-layout – dagsorden til venstre, sag i midten – men nu med split-screen (som brugerne efterspørger) og et AI-panel: resumé med kildehenvisninger, "Spørg sagen" på tværs af alle bilag, og kommunens hukommelse: hvad har vi besluttet før om dette? AI er altid hjælpeværktøj, aldrig beslutningstager.',
+ live:'Under mødet: afstemning i Live, og AI udarbejder et udkast til beslutningsprotokollen i realtid. Sekretariatet godkender – mennesket har altid sidste ord.',
+ handling:'Her er det nye: Beslutningen stopper ikke i referatet. AI udleder de konkrete næste skridt, og med ét klik oprettes borgerhøringen som selvbetjeningsløsning i XFlow, opgaven sendes til forvaltningen, og afrapporteringen lægges i årshjulet i Plandisc. Tre Visma-produkter – én sammenhængende kundeoplevelse.',
+ opfolgning:'Byrådet kan nu følge, om beslutninger faktisk bliver ført ud i livet. Det skaber ny værdi for politikere og direktion – og et nyt, fælles produktområde på tværs af vertikalerne i Visma Public Technologies.'
+};
+const ITEMS=[
+ {t:'Godkendelse af dagsorden',m:'Åben'},
+ {t:'Budgetopfølgning 3. kvartal 2026',m:'Åben · 2 bilag'},
+ {t:'Klimahandleplan 2027–2030',m:'Åben · 3 bilag · 69 sider'},
+ {t:'Udbud af kantinedrift',m:'Åben · 1 bilag'},
+ {t:'Personalesag',m:'Lukket',lock:true}
+];
+const QA=[
+ {q:'Hvad koster planen?',a:'Planen har en samlet anlægsudgift på 38,5 mio. kr. over fire år. Heraf er 21 mio. kr. allerede afsat i budget 2027, mens de resterende 17,5 mio. kr. kræver prioritering i budget 2028–2030.',s:['Bilag 3, s. 2','Bilag 3, s. 5']},
+ {q:'Hvad sagde høringssvarene?',a:'Der kom 46 høringssvar. Hovedparten støtter planen. De væsentligste kritikpunkter handler om kollektiv trafik i landdistrikterne (14 svar) og tempoet i udfasning af oliefyr (9 svar). Erhvervsrådet ønsker en tættere dialog med virksomhederne.',s:['Bilag 2, s. 3–7']},
+ {q:'Hvad er ændret siden 2022-planen?',a:'Målet om CO₂-reduktion er skærpet fra 60 % til 70 % i 2030. Nyt er et særskilt spor for landbrug og et krav om årlig afrapportering til Byrådet. Indsatsen for kommunale bygninger videreføres.',s:['Bilag 1, s. 4','Byrådet 14.03.2022, pkt. 7']},
+ {q:'Hvilke risici peger forvaltningen på?',a:'Forvaltningen peger på tre risici: afhængighed af statslige puljemidler, mangel på håndværkere til energirenoveringer og usikkerhed om prisudviklingen på varmepumper.',s:['Bilag 3, s. 8']}
+];
+const $=s=>document.querySelector(s);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+function go(s){S.screen=s;render()}
+function appbar(){return `<div class="appbar"><div class="logo"><div class="mark">P</div>Prepare</div><span class="org hide-m">Vestby Kommune</span><span class="sp"></span><span class="ai-pill">✦ AI aktiv</span><div class="avatar">ML</div></div>`}
+
+function vOversigt(){
+ const mt=[['9','dec','Økonomiudvalget','Rådhuset, mødelokale 1 · 15:00','5 punkter · 112 sider','t-teal','Klar til forberedelse',true],
+  ['11','dec','Klima- og Miljøudvalget','Rådhuset, mødelokale 3 · 16:00','7 punkter · 64 sider','t-amber','Bilag tilføjet i dag'],
+  ['16','dec','Byrådet','Byrådssalen · 17:00','14 punkter · 38 sider','t-grey','Udsendes 9. dec.']];
+ return appbar()+`<div class="body"><div class="main">
+ <h1>Godmorgen, Mette</h1><div class="sub">Byrådsmedlem · Økonomiudvalget, Klima- og Miljøudvalget</div>
+ <div class="grid2" style="margin-top:18px"><div>
+ <h2 style="margin-top:0">Dine kommende møder</h2>
+ ${mt.map(m=>`<div class="mtg" onclick="${m[7]?"go('moede')":"toast('I prototypen er Økonomiudvalget klikbart')"}"><div class="date"><b>${m[0]}</b><span>${m[1]}</span></div><div class="info"><h3>${m[2]}</h3><div class="sub">${m[3]}</div><div class="sub">${m[4]}</div></div><span class="tag ${m[5]}">${m[6]}</span></div>`).join('')}
+ </div><div>
+ <div class="aibox"><div class="spark">✦ Dit overblik for ugen</div>
+ <p style="line-height:1.5;margin:8px 0">Du har <b>3 møder</b> og <b>214 sider</b> mødemateriale. Normal læsetid: ca. 4 timer. Med AI-resuméer: ca. <b>25 minutter</b> til overblik – derefter kan du gå i dybden, hvor det betyder mest.</p>
+ <p style="line-height:1.5;margin:8px 0">Vigtigst: <b>Klimahandleplan 2027–2030</b> (Økonomiudvalget) har budgetkonsekvenser på 38,5 mio. kr.</p>
+ <button class="btn btn-p" onclick="S.item=3;go('moede')">Start forberedelse</button></div>
+ <h2>Fra årshjulet <span class="tag t-violet">Plandisc</span></h2>
+ <div class="card">${ring()}<div class="sub" style="margin-top:6px">Møder og afrapporteringer synkroniseres automatisk fra kommunens årshjul.</div></div>
+ </div></div></div></div>`;
+}
+function ring(){
+ const months=['J','F','M','A','M','J','J','A','S','O','N','D'];let s='';
+ months.forEach((m,i)=>{const a=(i/12)*2*Math.PI-Math.PI/2;s+=`<text x="${80+66*Math.cos(a)}" y="${83+66*Math.sin(a)}" text-anchor="middle">${m}</text>`});
+ const dots=[[11.3,'#1fb5a8'],[11.5,'#f2a33a'],[11.6,'#2f6fe4'],[5.2,'#7a5af5'],[1.5,'#e85d75'],[8.1,'#1fb5a8']];
+ dots.forEach(d=>{const a=(d[0]/12)*2*Math.PI-Math.PI/2;s+=`<circle cx="${80+52*Math.cos(a)}" cy="${80+52*Math.sin(a)}" r="5" fill="${d[1]}"/>`});
+ return `<div class="row"><svg class="ring" width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="52" fill="none" stroke="#eef1f6" stroke-width="14"/><path d="M80 28 A52 52 0 0 1 ${80+52*Math.cos(-Math.PI/2+2*Math.PI*0.95)} ${80+52*Math.sin(-Math.PI/2+2*Math.PI*0.95)}" fill="none" stroke="#e3f6f4" stroke-width="14"/>${s}<text x="80" y="78" text-anchor="middle" style="font-size:12px;fill:#0e2240;font-weight:700">2026</text><text x="80" y="92" text-anchor="middle">Årshjul</text></svg>
+ <div style="font-size:12px;line-height:1.9"><div><span class="tag t-teal">Dec</span> Økonomiudvalget</div><div><span class="tag t-amber">Dec</span> Klima- og Miljøudv.</div><div><span class="tag t-blue">Dec</span> Byrådet</div><div><span class="tag t-violet">Jun</span> Klimastatus</div></div></div>`;
+}
+
+function sideAgenda(){
+ return `<div class="side"><div class="hd"><h3>Økonomiudvalget</h3><div class="sub">9. december 2026 · 15:00</div></div>
+ ${ITEMS.map((it,i)=>`<div class="item ${S.item===i+1?'on':''}" onclick="${it.lock?"toast('Lukket punkt – kun for udvalgets medlemmer')":`S.item=${i+1};render()`}"><div class="num">${i+1}</div><div><div class="tt">${it.lock?'🔒 ':''}${it.t}</div><div class="meta">${it.m}</div></div></div>`).join('')}</div>`;
+}
+function docKlima(){
+ return `<div class="doc"><span class="tag t-teal">Punkt 3 · Åben</span><h1 style="margin-top:8px">Klimahandleplan 2027–2030</h1><div class="sub">Sagsnr. 00.01.00-P20-4-26 · Teknik og Miljø</div>
+ <div class="sec">Sagsfremstilling</div>
+ <p>Byrådet vedtog i 2022 kommunens første klimahandleplan. Forvaltningen har nu udarbejdet en ny plan for perioden 2027–2030, der skærper målet for CO₂-reduktion til <span class="hl">70 % i 2030</span> i forhold til 1990.</p>
+ <p>Planen har været i offentlig høring fra 15. september til 27. oktober 2026, og der er indkommet 46 høringssvar. Forvaltningen har på baggrund af høringen justeret indsatsen for kollektiv trafik i landdistrikterne.</p>
+ <div class="note-inline"><b>Din note:</b> Spørg til finansieringen efter 2027 – hvad hvis puljemidlerne udebliver?</div>
+ <div class="sec">Økonomi</div>
+ <p>Den samlede anlægsudgift udgør 38,5 mio. kr. over fire år. Heraf er 21 mio. kr. afsat i budget 2027.</p>
+ <div class="sec">Indstilling</div>
+ <p>Teknik og Miljø indstiller, at Økonomiudvalget anbefaler Byrådet at godkende Klimahandleplan 2027–2030, at planen sendes i borgerhøring om de lokale delindsatser, og at der afrapporteres årligt til Byrådet.</p>
+ <div class="sec">Bilag</div>
+ <div class="bilag"><div class="bil"><div class="ic">PDF</div>1. Klimahandleplan 2027–2030 (42 s.)</div><div class="bil"><div class="ic">PDF</div>2. Høringsnotat (18 s.)</div><div class="bil"><div class="ic">PDF</div>3. Økonomisk konsekvensvurdering (9 s.)</div></div></div>`;
+}
+function docOther(){const it=ITEMS[S.item-1];return `<div class="doc"><span class="tag t-grey">Punkt ${S.item}</span><h1 style="margin-top:8px">${it.t}</h1><div class="sub">${it.m}</div><p style="margin-top:20px;color:var(--muted)">I prototypen er punkt 3 (Klimahandleplan) udfoldet. <a href="#" onclick="S.item=3;render();return false">Gå til punkt 3</a></p></div>`}
+function panel(){
+ const k=S.item===3;
+ let b='';
+ if(S.tab==='ai'){
+  b=k?`<div class="spark">✦ AI-resumé af sag og bilag</div><div class="sub" style="margin:4px 0 8px">69 sider · læsetid ca. 2 t → 2 min</div>
+  <ul class="ai-list"><li>Nyt mål: <b>70 % CO₂-reduktion i 2030</b> (før 60 %).<span class="src">Bilag 1, s. 4</span></li>
+  <li>Samlet pris <b>38,5 mio. kr.</b> – 17,5 mio. kr. er ikke finansieret efter 2027.<span class="src">Bilag 3, s. 5</span></li>
+  <li>46 høringssvar; mest kritik af kollektiv trafik i landdistrikter.<span class="src">Bilag 2, s. 3</span></li>
+  <li>Indstillingen kræver <b>borgerhøring</b> og <b>årlig afrapportering</b>.<span class="src">Sagsfremstilling</span></li></ul>
+  <div class="hist"><b>🏛 Kommunens hukommelse</b><br>Byrådet vedtog Klimahandleplan 2022–2026 d. 14.03.2022 (pkt. 7). Status: 4 af 6 indsatser gennemført, 2 forsinket.<br><a href="#" onclick="go('opfolgning');return false">Se beslutningssporing →</a></div>
+  <p class="sub" style="font-size:11px;margin-top:12px">AI benyttes som hjælpeværktøj – aldrig selvstændigt. Dansk hostet sprogmodel.</p>`
+  :`<div class="sub">Vælg punkt 3 for at se AI-resumé i prototypen.</div>`;
+ } else if(S.tab==='ask'){
+  b=`<div class="spark">✦ Spørg sagen</div><div class="sub">Svar med kilder fra sagens bilag og tidligere beslutninger</div>
+  <div class="chips">${QA.map((x,i)=>`<button class="chip" onclick="ask(${i})">${x.q}</button>`).join('')}</div>
+  <div class="chat" id="chat">${S.chat.map(m=>`<div class="msg ${m.r}">${m.t}</div>`).join('')}</div>`;
+ } else {
+  b=`<h3>Mine noter</h3><div class="note-inline">Spørg til finansieringen efter 2027 – hvad hvis puljemidlerne udebliver?</div>
+  <h3 style="margin-top:14px">Delte kommentarer</h3><div class="card" style="padding:10px;font-size:13px"><b>Anders K. (V):</b> Kan vi få belyst konsekvenserne for landbruget inden Byrådet? <span class="tag t-rose">Høj prioritet</span></div>`;
+ }
+ return `<div class="panel"><div class="ptabs"><button class="${S.tab==='ai'?'on':''}" onclick="S.tab='ai';render()">✦ Resumé</button><button class="${S.tab==='ask'?'on':''}" onclick="S.tab='ask';render()">Spørg sagen</button><button class="${S.tab==='notes'?'on':''}" onclick="S.tab='notes';render()">Noter</button></div><div class="pbody">${b}</div>${S.tab==='ask'?`<div class="ask"><input id="q" placeholder="Stil et spørgsmål til sagen…" onkeydown="if(event.key==='Enter')askFree()"><button class="btn btn-n" onclick="askFree()">Spørg</button></div>`:''}</div>`;
+}
+function ask(i){const x=QA[i];S.chat.push({r:'u',t:x.q});S.chat.push({r:'a',t:'<span class="typing"><i></i><i></i><i></i></span>'});render();
+ setTimeout(()=>{S.chat[S.chat.length-1]={r:'a',t:x.a+'<br>'+x.s.map(s=>`<span class="src">${s}</span>`).join(' ')};render();const c=$('.pbody');if(c)c.scrollTop=1e5},900)}
+function askFree(){const v=($('#q')||{}).value;if(!v)return;const l=v.toLowerCase();
+ let i=l.match(/kost|pris|økonomi|budget|mio/)?0:l.match(/høring|borger|svar/)?1:l.match(/2022|ændr|før|tidligere/)?2:l.match(/risik|udfordr|problem/)?3:-1;
+ if(i>=0){S.chat.push({r:'u',t:v});S.chat.push({r:'a',t:'<span class="typing"><i></i><i></i><i></i></span>'});render();setTimeout(()=>{S.chat[S.chat.length-1]={r:'a',t:QA[i].a+'<br>'+QA[i].s.map(s=>`<span class="src">${s}</span>`).join(' ')};render()},900)}
+ else{S.chat.push({r:'u',t:v});S.chat.push({r:'a',t:'Det kan jeg ikke finde i sagens bilag. Prøv fx at spørge om økonomi, høringssvar, risici eller den tidligere plan fra 2022.'});render()}}
+function vMoede(){
+ const mobileTabs=`<div class="mtabs"><button class="${S.mtab==='doc'?'on':''}" onclick="S.mtab='doc';render()">Sagen</button><button class="${S.mtab==='ai'?'on':''}" onclick="S.mtab='ai';S.tab='ai';render()">✦ Resumé</button><button class="${S.mtab==='ask'?'on':''}" onclick="S.mtab='ask';S.tab='ask';render()">Spørg sagen</button><button onclick="go('live')">Til mødet →</button></div>`;
+ const isM=S.dev==='iphone';
+ const main=`<div class="main">${S.item===3?docKlima():docOther()}<div style="margin-top:20px" class="hide-m"><button class="btn btn-n" onclick="go('live')">Gå til mødet (Live) →</button></div></div>`;
+ if(isM) return appbar()+mobileTabs+`<div class="body">${S.mtab==='doc'?main:panel()}</div>`;
+ return appbar()+`<div class="body">${sideAgenda()}${main}${panel()}</div>`;
+}
+function vLive(){
+ return appbar()+`<div class="body">${S.dev==='ipad'?sideAgenda():''}<div class="main">
+ <div class="row"><span class="tag t-rose">● LIVE</span><span class="sub">Økonomiudvalget · Punkt 3 behandles nu</span></div>
+ <h1 style="margin-top:8px">Klimahandleplan 2027–2030</h1>
+ <div class="grid2" style="margin-top:12px"><div>
+ <h2 style="margin-top:0">Afstemning</h2>
+ ${S.decided?`<div class="vote"><div class="card"><b style="color:#0d7d73">7</b>For</div><div class="card"><b style="color:#b8324a">2</b>Imod</div><div class="card"><b>0</b>Undlod</div></div><span class="tag t-teal">Vedtaget</span>`
+ :`<div class="card"><p style="margin:0 0 10px">Formanden har sat indstillingen til afstemning.</p><button class="btn btn-p" onclick="S.decided=true;render()">Afslut afstemning</button></div>`}
+ </div><div>
+ <h2 style="margin-top:0"><span class="spark">✦</span> AI-udkast til beslutningsprotokol</h2>
+ ${S.decided?`<div class="draft"><b>Beslutning:</b> Anbefales godkendt over for Byrådet med 7 stemmer for og 2 imod (V). Udvalget bad forvaltningen om at belyse konsekvenserne for landbruget inden Byrådets behandling.<br><br>Planen sendes i borgerhøring om de lokale delindsatser i 8 uger. Der afrapporteres årligt til Byrådet, første gang i juni 2027.</div>
+ <div class="row" style="margin-top:10px">${S.minutesOk?`<span class="done-ok">✓ Godkendt af sekretariatet</span><button class="btn btn-n" style="margin-left:auto" onclick="go('handling')">Næste skridt →</button>`:`<button class="btn btn-g" onclick="toast('Redigering åbnes')">Redigér</button><button class="btn btn-p" onclick="S.minutesOk=true;render()">Godkend referat</button>`}</div>`
+ :`<div class="draft" style="color:var(--muted)"><span class="typing"><i></i><i></i><i></i></span> AI lytter til mødet og skriver med…</div>`}
+ </div></div></div></div>`;
+}
+function vHandling(){
+ const st=S.actions;
+ const A=[['XF','t-blue','Borgerhøring om lokale klimaindsatser','Selvbetjeningsløsning med høringsformular, 8 uger, publiceres på kommunens hjemmeside','XFlow'],
+  ['XF','t-blue','Opgave: Konsekvensnotat for landbruget','Til Teknik og Miljø · frist 14. december 2026 · klar til Byrådets møde 16. december','XFlow'],
+  ['PD','t-violet','Årlig afrapportering til Byrådet','Statusrapport lægges i årshjulet – første gang juni 2027','Plandisc']];
+ return appbar()+`<div class="body"><div class="main">
+ <span class="tag t-teal">Beslutning vedtaget</span><h1 style="margin-top:8px">Fra beslutning til handling</h1>
+ <div class="sub">AI har fundet 3 opgaver i beslutningen. Gennemse og opret dem med ét klik.</div>
+ <div class="flow"><span class="node t-teal">Prepare · beslutning</span><span class="arr">→</span><span class="node t-blue">XFlow · arbejdsgange</span><span class="arr">→</span><span class="node t-violet">Plandisc · årshjul</span><span class="arr">→</span><span class="node t-amber">Opfølgning</span></div>
+ ${A.map((a,i)=>`<div class="action"><div class="ico ${a[1]}">${a[0]}</div><div><h3>${a[2]}</h3><div class="sub">${a[3]}</div></div><div class="st">${st==='idle'?`<span class="tag ${a[1]}">${a[4]}</span>`:st==='run'&&i>=S.prog?`<span class="spinner"></span> Opretter…`:`<span class="done-ok">✓ Oprettet i ${a[4]}</span>`}</div></div>`).join('')}
+ <div class="row" style="margin-top:6px">${st==='done'?`<span class="done-ok">Alle opgaver er oprettet og koblet til beslutningen.</span><button class="btn btn-n" style="margin-left:auto" onclick="go('opfolgning')">Se opfølgning →</button>`:`<button class="btn btn-g" onclick="toast('Opgaverne kan redigeres før oprettelse')">Redigér</button><button class="btn btn-p" ${st==='run'?'disabled':''} onclick="runActions()">Opret alle 3</button>`}</div>
+ <div class="hist" style="margin-top:18px"><b>Hvorfor det betyder noget:</b> I dag stopper mødesystemet ved referatet. Her bliver beslutningen sporbar hele vejen fra dagsorden til gennemførelse – på tværs af tre produkter, som kommunerne allerede bruger.</div>
+ </div></div>`;
+}
+function runActions(){S.actions='run';S.prog=0;render();const t=setInterval(()=>{S.prog++;if(S.prog>=3){clearInterval(t);S.actions='done'}render()},700)}
+function vOpf(){
+ const R=[['Klimahandleplan 2027–2030','ØU','09.12.26','Teknik og Miljø',10,'t-teal','Netop oprettet'],
+  ['Klimahandleplan 2022–2026','BY','14.03.22','Teknik og Miljø',67,'t-amber','2 indsatser forsinket'],
+  ['Ny skolestruktur, Nordområdet','BY','27.05.25','Børn og Unge',85,'t-teal','I gang'],
+  ['Digital borgerservice 2026','ØU','12.02.26','Borgerservice',100,'t-grey','Gennemført'],
+  ['Udbud af ældremad','SSU','03.09.25','Sundhed og Omsorg',40,'t-rose','Frist overskredet']];
+ return appbar()+`<div class="body"><div class="main">
+ <h1>Beslutningssporing</h1><div class="sub">Følg hvordan politiske beslutninger bliver ført ud i livet</div>
+ <div class="stat" style="margin:16px 0"><div class="card"><b>128</b><span class="sub">beslutninger i 2026</span></div><div class="card"><b style="color:#0d7d73">74 %</b><span class="sub">gennemført til tiden</span></div><div class="card"><b style="color:#b8324a">9</b><span class="sub">forsinkede</span></div></div>
+ <div class="search"><input id="sq" value="Hvad har vi besluttet om kollektiv trafik i landdistrikterne?"><button class="btn btn-n" onclick="memSearch()">✦ Søg</button></div>
+ <div id="sres"></div>
+ <div class="card" style="padding:6px 8px;overflow:auto"><table><tr><th>Beslutning</th><th class="hide-m">Udvalg</th><th class="hide-m">Dato</th><th class="hide-m">Ansvarlig</th><th>Fremdrift</th><th>Status</th></tr>
+ ${R.map(r=>`<tr><td><b>${r[0]}</b></td><td class="hide-m">${r[1]}</td><td class="hide-m">${r[2]}</td><td class="hide-m">${r[3]}</td><td><div class="bar"><i style="width:${r[4]}%"></i></div></td><td><span class="tag ${r[5]}">${r[6]}</span></td></tr>`).join('')}</table></div>
+ </div></div>`;
+}
+function memSearch(){$('#sres').innerHTML='<div class="res"><span class="typing"><i></i><i></i><i></i></span></div>';setTimeout(()=>{$('#sres').innerHTML=`<div class="res"><b>3 relevante beslutninger fundet:</b><br>• Byrådet 14.03.2022: Pulje på 2 mio. kr. til flextrafik i landdistrikter <span class="src">BY pkt. 7</span><br>• Klima- og Miljøudvalget 05.06.2024: Forsøg med samkørsel i 3 landsbyer – evaluering viste lav brug <span class="src">KMU pkt. 4</span><br>• Økonomiudvalget 09.12.2026: Indsatsen justeret efter 14 høringssvar <span class="src">ØU pkt. 3</span></div><br>`},900)}
+
+function render(){
+ $('#steps').innerHTML=STEPS.map(s=>`<button class="${S.screen===s[0]?'on':''}" onclick="go('${s[0]}')">${s[1]}</button>`).join('');
+ const v={oversigt:vOversigt,moede:vMoede,live:vLive,handling:vHandling,opfolgning:vOpf}[S.screen]();
+ $('#screen').innerHTML=v;$('#talk').textContent=TALK[S.screen];
+ const c=$('.pbody');if(c&&S.tab==='ask')c.scrollTop=1e5;
+}
+document.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>{S.dev=b.dataset.dev;document.querySelectorAll('[data-dev]').forEach(x=>x.classList.toggle('on',x===b));$('#device').className='device '+S.dev;render()});
+render();
+</script>
+</body>
+</html>
