@@ -30,11 +30,35 @@ const ic = {
   redo: I('<path d="M15 7l5 5-5 5"/><path d="M20 12H9a5 5 0 0 0 0 10h2"/>')
 };
 
+/* fyldte ikoner i FirstAgenda-stil */
+const F = (d) => `<svg class="f" viewBox="0 0 24 24">${d}</svg>`;
+const fi = {
+  home: F('<path d="M12 2.5 1.5 11.5H5V21h5.2v-6h3.6v6H19v-9.5h3.5z"/>'),
+  doc: F('<path fill-rule="evenodd" d="M5 2h9.5L19 6.5V22H5zM8 11h8v1.8H8zm0 4h8v1.8H8z"/>'),
+  live: F('<circle cx="12" cy="12" r="3.2"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8l1.6-1.6a6.8 6.8 0 0 1 0-9.6zM18.4 5.6l-1.6 1.6a6.8 6.8 0 0 1 0 9.6l1.6 1.6a9 9 0 0 0 0-12.8z"/>'),
+  track: F('<path d="M2.5 3.5h5v5h-5zM10 5h11.5v2H10zM2.5 9.5h5v5h-5zM10 11h11.5v2H10zM2.5 15.5h5v5h-5zM10 17h11.5v2H10z"/>'),
+  wheel: F('<path fill-rule="evenodd" d="M12 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21zm0 5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/><path d="M12 8.5V12h3.5A3.5 3.5 0 0 0 12 8.5z"/>'),
+  gear: F('<path fill-rule="evenodd" d="M10.3 1.5h3.4l.5 2.9 1.9.8 2.4-1.7 2.4 2.4-1.7 2.4.8 1.9 2.9.5v3.4l-2.9.5-.8 1.9 1.7 2.4-2.4 2.4-2.4-1.7-1.9.8-.5 2.9h-3.4l-.5-2.9-1.9-.8-2.4 1.7-2.4-2.4 1.7-2.4-.8-1.9-2.9-.5v-3.4l2.9-.5.8-1.9-1.7-2.4 2.4-2.4 2.4 1.7 1.9-.8zM12 8.4a3.6 3.6 0 1 0 0 7.2 3.6 3.6 0 0 0 0-7.2z"/>'),
+  users: F('<circle cx="8.5" cy="7" r="3.6"/><circle cx="16.8" cy="8" r="2.9"/><path d="M1.5 20c0-3.9 3.1-6.6 7-6.6s7 2.7 7 6.6v1h-14zM17 21v-1c0-2.2-.8-4-2.2-5.2.6-.2 1.3-.3 2-.3 3.2 0 5.7 2.2 5.7 5.5v1z"/>'),
+  clock: F('<path fill-rule="evenodd" d="M12 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21zm0 2.4a8.1 8.1 0 1 0 0 16.2 8.1 8.1 0 0 0 0-16.2z"/><path d="M10.9 6.5h2.2v5l3.6 2.2-1.1 1.8-4.7-2.8z"/>'),
+  pin: F('<path fill-rule="evenodd" d="M12 1.5a7.5 7.5 0 0 1 7.5 7.5c0 5.4-7.5 13.5-7.5 13.5S4.5 14.4 4.5 9A7.5 7.5 0 0 1 12 1.5zm0 4.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4z"/>'),
+  user: F('<circle cx="12" cy="7.2" r="4.7"/><path d="M3 22c.5-5 4.2-8 9-8s8.5 3 9 8z"/>'),
+  trash: F('<path d="M8.5 2h7l.8 1.8H21V6.5H3V3.8h4.7zM4.8 8h14.4l-1 14H5.8z"/>'),
+  pen: F('<path d="M3 17.3V21h3.7L17.8 9.9l-3.7-3.7zM20.7 7a1 1 0 0 0 0-1.4l-2.3-2.3a1 1 0 0 0-1.4 0l-1.8 1.8 3.7 3.7z"/>'),
+  unlock: F('<path d="M7 10.5V7a5 5 0 0 1 9.7-1.7l-2.1.8A2.8 2.8 0 0 0 9.2 7v3.5H18a1.2 1.2 0 0 1 1.2 1.2v9.1A1.2 1.2 0 0 1 18 22H6a1.2 1.2 0 0 1-1.2-1.2v-9.1A1.2 1.2 0 0 1 6 10.5z"/>'),
+  lock: F('<path fill-rule="evenodd" d="M7 10.5V7a5 5 0 0 1 10 0v3.5h1a1.2 1.2 0 0 1 1.2 1.2v9.1A1.2 1.2 0 0 1 18 22H6a1.2 1.2 0 0 1-1.2-1.2v-9.1A1.2 1.2 0 0 1 6 10.5zm2.2 0h5.6V7a2.8 2.8 0 0 0-5.6 0z"/>'),
+  cloud: F('<path d="M19.4 10.1A7.5 7.5 0 0 0 5.4 8 6 6 0 0 0 6 20h13a5 5 0 0 0 .4-9.9z"/><path class="ar" d="M12 8.5 7.5 13H10.5v4.5h3V13h3z"/>')
+};
+const chk = I('<path d="M5 12.5l4.5 4.5L19 7.5"/>');
+const ext = I('<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>');
+const sortI = I('<path d="M6 4v16M3 17l3 3 3-3"/><text x="12" y="10" font-size="8" fill="currentColor" stroke="none" font-family="Arial" font-weight="700">1</text><text x="12" y="20" font-size="8" fill="currentColor" stroke="none" font-family="Arial" font-weight="700">9</text>');
+const chevD = I('<path d="M6 9l6 6 6-6"/>');
+
 /* ---------- tilstand ---------- */
 const S = {
   tab: 'ai', chats: {}, comments: {}, hl: true, pen: 0, votes: {}, approved: {}, drafts: {}, editing: false,
   acts: {}, prog: {}, sel: {}, created: [], trackSel: null, filter: 'all', query: '', memRes: null,
-  menu: null, modal: null, wtab: 'afvikl'
+  menu: null, modal: null, wtab: 'afvikl', saved: null
 };
 MEETINGS.forEach(m => m.items.forEach((it, i) => { S.comments[m.id + '-' + (i + 1)] = it.comments.map(c => ({ ...c })); }));
 
@@ -56,19 +80,17 @@ const srcs = a => a.map(s => `<span class="src">${s}</span>`).join('');
 
 /* ---------- skal ---------- */
 function shell(inner, active) {
-  const rail = [['home', '#/', ic.home, 'Overblik'], ['moede', '#/moede/ou/3', ic.doc, 'Forbered'], ['afvikl', '#/afvikl/ou/1', ic.live, 'Afvikl'],
-    ['opfolgning', '#/opfolgning', ic.track, 'Beslutninger'], ['aarshjul', '#/aarshjul', ic.wheel, 'Årshjul']];
+  const rail = [['home', '#/', fi.home, 'Overblik'], ['moede', '#/moede/ou/3', fi.doc, 'Forbered'], ['afvikl', '#/afvikl/ou/1', fi.live, 'Afvikl'],
+    ['opfolgning', '#/opfolgning', fi.track, 'Beslutninger'], ['aarshjul', '#/aarshjul', fi.wheel, 'Årshjul']];
   return `<header class="whead">
     <button class="menu" onclick="toast('Menu – ikke en del af konceptet')" aria-label="Menu">${ic.menu}</button>
     <div class="wlogo" onclick="go('#/')"><img src="logo.png" alt="FirstAgenda Prepare" onerror="this.outerHTML='<div class=mk>P</div><div><span>FirstAgenda</span><b>Prepare</b></div>'"></div>
     <span class="sp"></span>
-    <label class="gsearch">${ic.search}<input placeholder="Søg i møder og beslutninger…" onkeydown="if(event.key==='Enter'){S.query=this.value;memSearch(this.value);go('#/opfolgning')}"></label>
-    <span class="orgsel" onclick="toast('Kun Vestby Kommune i prototypen')">Vestby Kommune ▾</span>
-    <button class="hicon" onclick="S.menu=S.menu==='bell'?null:'bell';render()" aria-label="Notifikationer">${ic.bell}<b>2</b></button>
-    <button class="wava" onclick="S.menu=S.menu==='user'?null:'user';render()">${USER.initials}</button>
+    <span class="orgsel" onclick="toast('Kun Vestby Kommune i prototypen')">Vestby Kommune ${chevD}</span>
+    <button class="wava" onclick="S.menu=S.menu==='user'?null:'user';render()" aria-label="Profil og notifikationer">${USER.initials}</button>
   </header>
-  <nav class="rail">${rail.map(r => `<button class="${active === r[0] ? 'on' : ''}" onclick="go('${r[1]}')"><span class="ri">${r[2]}</span>${r[3]}</button>`).join('')}
-    <span class="grow"></span><button class="hide-m" onclick="toast('Indstillinger – ikke en del af konceptet')"><span class="ri">${ic.gear}</span>Indstil.</button></nav>
+  <nav class="rail">${rail.map(r => `<button class="${active === r[0] ? 'on' : ''}" onclick="go('${r[1]}')" aria-label="${r[3]}">${r[2]}<span class="tip">${r[3]}</span></button>`).join('')}
+    <button class="hide-m" onclick="toast('Indstillinger – ikke en del af konceptet')" aria-label="Indstillinger">${fi.gear}<span class="tip">Indstillinger</span></button></nav>
   <main>${inner}</main>${menus()}${modal()}`;
 }
 function menus() {
@@ -76,6 +98,8 @@ function menus() {
     <button onclick="S.menu=null;go('#/moede/kmu/2')"><b>Nye bilag</b><br><span class="sub">Klima- og Miljøudvalget · punkt 2</span></button>
     <button onclick="S.menu=null;S.tab='kom';go('#/moede/ou/3')"><b>Anders Krogh kommenterede</b><br><span class="sub">Økonomiudvalget · punkt 3</span></button></div>`;
   if (S.menu === 'user') return `<div class="menu-pop"><div class="hd"><b>${USER.name}</b><br><span class="sub">${USER.role} · Vestby Kommune</span></div>
+    <button onclick="S.menu=null;go('#/moede/kmu/2')"><b>Nye bilag</b><br><span class="sub">Klima- og Miljøudvalget · punkt 2</span></button>
+    <button onclick="S.menu=null;S.tab='kom';go('#/moede/ou/3')"><b>Anders Krogh kommenterede</b><br><span class="sub">Økonomiudvalget · punkt 3</span></button>
     <button onclick="S.menu=null;toast('Profil – ikke en del af konceptet')">Min profil</button>
     <button onclick="S.menu=null;resetDemo()">Nulstil demo</button>
     <button onclick="S.menu=null;toast('Log ud – ikke en del af konceptet')">Log ud</button></div>`;
@@ -220,18 +244,26 @@ function addComment() { const v = ($('#c') || {}).value; if (!v || !v.trim()) re
 /* ---------- afvikl (sekretariat) ---------- */
 function meetHead(m, right) {
   return `<div class="mhead"><div class="mbox"><h2>${m.name}</h2>
-    <div class="mrow">${ic.users}<a onclick="toast('Udvalgets medlemmer')">${m.name}</a></div><div class="mrow">${ic.clock}${m.date} <i>${m.time}</i></div>
-    <div class="mrow">${ic.pin}${m.place}</div><div class="mrow">${ic.user}<a onclick="toast('9 af 9 mødedeltagere er til stede')">Mødedeltagere</a></div></div><div>${right}</div></div>`;
+    <div class="cbtns"><button class="cbtn" title="Slet møde" onclick="toast('Sletning er ikke en del af konceptet')">${fi.trash}</button><button class="cbtn" title="Redigér møde" onclick="toast('Redigering af mødeoplysninger – ikke en del af konceptet')">${fi.pen}</button></div>
+    <div class="mrow">${fi.users}<a onclick="toast('Udvalgets medlemmer')">${m.name}</a></div><div class="mrow">${fi.clock}<span>${m.date} <i>${m.time.replace(' – ', ' - ')}</i></span></div>
+    <div class="mrow">${fi.pin}${m.place}</div><div class="mrow">${fi.user}<a onclick="toast('9 af 9 mødedeltagere er til stede')">Mødedeltagere</a></div></div><div>${right}</div></div>`;
 }
 function vAfvikl(r) {
   const { m, n, it, k } = r;
-  const tabs = `<div class="wtabs"><button class="${S.wtab === 'afvikl' ? 'on' : ''}" onclick="S.wtab='afvikl';render()">AFVIKL <span class="livebadge">● Live</span></button><button class="${S.wtab === 'referat' ? 'on' : ''}" onclick="S.wtab='referat';render()">REFERAT</button></div>
-    <div class="wtabpane"><span class="sub">${S.wtab === 'afvikl' ? `Punkt ${n} behandles nu` : `${m.items.filter((x, i) => S.approved[key(m.id, i + 1)]).length} af ${m.items.length} beslutninger godkendt`}</span><span style="flex:1"></span>
-      <button class="btn btn-o" onclick="go('#/moede/${m.id}/${n}')">Åbn i Prepare</button>
-      ${S.wtab === 'afvikl' ? `<button class="btn btn-o" onclick="toast('Afstemning og punkt vises på storskærmen')">Vis på storskærm</button>` : `<button class="btn btn-p" onclick="toast('Referatet er sendt til gennemlæsning')">Send til gennemlæsning</button>`}</div>`;
-  const list = `<div>${m.items.map((x, i) => { const kk = key(m.id, i + 1); return `<button class="aitem ${n === i + 1 && S.wtab === 'afvikl' ? 'on' : ''}" onclick="S.wtab='afvikl';S.editing=false;go('#/afvikl/${m.id}/${i + 1}')"><span style="width:22px">${S.approved[kk] ? '<span class="okc">✓</span>' : ''}</span><span class="ncirc">${i + 1}</span><span class="txt">${x.lock ? '🔒 ' : ''}${x.t}</span>${n === i + 1 && S.wtab === 'afvikl' ? '<span class="livebadge">● LIVE</span>' : ''}</button>`; }).join('')}</div>`;
+  const done = m.items.filter((x, i) => S.approved[key(m.id, i + 1)]).length;
+  const tabs = `<div class="wtabs"><button class="${S.wtab === 'afvikl' ? 'on' : ''}" onclick="S.wtab='afvikl';render()">AFVIKL <span class="livebadge">● Live</span></button><button class="${S.wtab === 'referat' ? 'on' : ''}" onclick="S.wtab='referat';render()">REFERAT ${done === m.items.length ? `<span class="tchk">${chk}</span>` : `<span class="tgear">${fi.gear}</span>`}</button></div>
+    <div class="wtabpane"><a class="laes" onclick="go('#/moede/${m.id}/${n}')">Læs ${ext}</a>
+      ${S.wtab === 'afvikl'
+        ? `<button class="btn btn-o" onclick="toast('Afstemning og punkt vises på storskærmen')">Vis på storskærm</button><span class="sp"></span><button class="btn btn-p" onclick="S.wtab='referat';render()">Gå til referat</button>`
+        : `<button class="btn btn-o" onclick="toast('Referatet er sendt til gennemlæsning')">Send til gennemlæsning</button><span class="sp"></span><button class="btn btn-p" onclick="toast('${done} af ${m.items.length} beslutninger godkendt – frigivelse er ikke en del af konceptet')">Gå til frigivelse</button>`}</div>`;
+  const list = `<div><button class="sortbtn" onclick="toast('Sortering af punkter – ikke en del af konceptet')">${sortI} Sortér</button><div class="alist">${m.items.map((x, i) => { const kk = key(m.id, i + 1), cur = n === i + 1 && S.wtab === 'afvikl';
+    return `<div class="aitem ${cur ? 'on' : ''}" onclick="S.wtab='afvikl';S.editing=false;go('#/afvikl/${m.id}/${i + 1}')"><span class="st">${S.approved[kk] ? `<span class="okc">${chk}</span>` : fi.pen}</span>
+      <span class="box"><span class="ncirc">${i + 1}</span><span class="txt">${x.t}</span></span>
+      <span class="ab"><button class="cbtn" title="${x.lock ? 'Lukket punkt' : 'Åbent punkt'}" onclick="event.stopPropagation();toast('${x.lock ? 'Lukket punkt – kun for udvalgets medlemmer' : 'Åbent punkt – offentliggøres med referatet'}')">${x.lock ? fi.lock : fi.unlock}</button><button class="cbtn" title="Slet punkt" onclick="event.stopPropagation();toast('Sletning er ikke en del af konceptet')">${fi.trash}</button></span></div>`; }).join('')}</div>
+    <button class="addpt" onclick="toast('Tilføj nyt punkt – ikke en del af konceptet')"><b>+</b>Tilføj nyt punkt</button></div>`;
   const right = S.wtab === 'referat' ? referat(m) : decisionPanel(m, n, it, k);
-  return shell(`<div class="pad"><div class="crumbs"><a onclick="go('#/')">Overblik</a> / ${m.name} / Afvikling</div>${meetHead(m, tabs)}<div class="cols">${list}${right}</div></div>`, 'afvikl');
+  const save = `<div class="savebox ${S.saved ? 'dirty' : ''}"><div><b>${S.saved ? 'Ændringer gemt' : 'Ingen ændringer'}</b><small>Sidst opdateret : ${S.saved || m.date.slice(0, 6) + '2026 - 15:16'}</small></div><span>${chk}</span></div>`;
+  return shell(`<div class="pad">${meetHead(m, tabs)}<div class="cols">${list}${right}</div></div>${save}`, 'afvikl');
 }
 function decisionPanel(m, n, it, k) {
   const v = S.votes[k];
@@ -248,11 +280,14 @@ function decisionPanel(m, n, it, k) {
         ? `<span class="done-ok">✓ Godkendt af sekretariatet</span><span style="flex:1"></span>${it.actions.length ? `<button class="btn btn-p" onclick="go('#/handling/${m.id}/${n}')">Næste skridt →</button>` : n < m.items.length ? `<button class="btn btn-p" onclick="go('#/afvikl/${m.id}/${n + 1}')">Næste punkt →</button>` : `<button class="btn btn-p" onclick="S.wtab='referat';render()">Se referat →</button>`}`
         : `${S.editing ? `<button class="btn btn-o" onclick="saveDraft('${k}')">Gem ændringer</button>` : `<button class="btn btn-o" onclick="S.editing=true;render();$('#draft').focus()">Redigér</button>`}<button class="btn btn-p" onclick="approve('${k}')">Godkend beslutning</button>`}</div>`
       : `<div class="draft" style="color:var(--muted)"><span class="typing"><i></i><i></i><i></i></span> AI lytter til mødet og skriver med…</div>`}</div>`;
-  return `<div class="wpanel"><div class="wh">${n}. ${it.t}</div>${it.lock ? `<div class="wsec"><p>Lukket punkt – behandles for lukkede døre. Beslutningen fremgår kun af den lukkede beslutningsprotokol.</p></div>` : ''}${vote}${ai}</div>`;
+  const bil = `<div class="wsec"><h5>Bilag</h5>${it.bilag.length ? `<div class="bilist">${it.bilag.map((b, i) => `<button onclick="openBilag(${i})">${ic.pdf}${b[0]}${b[1] ? `<small>${b[1]} sider</small>` : ''}</button>`).join('')}</div>` : ''}
+    <div class="drop" onclick="toast('Upload af bilag – ikke en del af konceptet')">${fi.cloud}Drag/drop dine filer eller klik her for at uploade din(e) filer</div></div>`;
+  return `<div class="wpanel"><div class="wh"><b>${n}.</b>${it.t}</div>${it.lock ? `<div class="wsec"><p>Lukket punkt – behandles for lukkede døre. Beslutningen fremgår kun af den lukkede beslutningsprotokol.</p></div>` : ''}${vote}${ai}${bil}</div>`;
 }
 function startVote(k) { S.votes[k] = 'run'; render(); setTimeout(() => { S.votes[k] = 'done'; render(); }, 1600); }
-function saveDraft(k) { const d = $('#draft'); if (d) S.drafts[k] = d.innerHTML; S.editing = false; render(); toast('Udkast gemt'); }
-function approve(k) { if (S.editing) { const d = $('#draft'); if (d) S.drafts[k] = d.innerHTML; S.editing = false; } S.approved[k] = true; render(); toast('Beslutning godkendt'); }
+function saveDraft(k) { const d = $('#draft'); if (d) S.drafts[k] = d.innerHTML; S.editing = false; stamp(); render(); toast('Udkast gemt'); }
+function stamp() { const d = new Date(), p = x => String(x).padStart(2, '0'); S.saved = `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()} - ${p(d.getHours())}:${p(d.getMinutes())}`; }
+function approve(k) { if (S.editing) { const d = $('#draft'); if (d) S.drafts[k] = d.innerHTML; S.editing = false; } S.approved[k] = true; stamp(); render(); toast('Beslutning godkendt'); }
 function referat(m) {
   return `<div class="wpanel"><div class="wh">Beslutningsprotokol · ${m.name} ${m.date}</div>${m.items.map((x, i) => { const kk = key(m.id, i + 1); return `<div class="wsec"><h5>${i + 1}. ${x.t}</h5>${S.approved[kk] ? `<div>${S.drafts[kk] || x.decision}</div>` : `<span class="sub">Ikke behandlet endnu · </span><a onclick="S.wtab='afvikl';go('#/afvikl/${m.id}/${i + 1}')">Behandl punkt</a>`}</div>`; }).join('')}</div>`;
 }
