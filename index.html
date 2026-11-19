@@ -381,7 +381,7 @@ function vMoede(){
 /* ---------- web admin ---------- */
 function webChrome(inner,railOn=1){
  const r=[ic.eye,ic.dl,ic.user,ic.users,ic.pdf,ic.globe,ic.gear,ic.mail];
- return `<div class="whead"><div class="menu">${ic.menu}</div><div class="wlogo"><div class="mk">P</div><div><span>Visma</span><b>Prepare</b></div></div><span class="sp"></span><span class="orgsel">Vestby Kommune ▾</span><div class="wava">SK</div></div>
+ return `<div class="whead"><div class="menu">${ic.menu}</div><div class="wlogo"><img src="logo.png" alt="" style="height:44px;width:auto" onerror="this.outerHTML=\'<div class=mk>P</div>\'"><div><span>FirstAgenda</span><b>Prepare</b></div></div><span class="sp"></span><span class="orgsel">Vestby Kommune ▾</span><div class="wava">SK</div></div>
  <div class="wbody"><div class="rail">${r.map((x,i)=>i===railOn?`<div class="on">${x}</div>`:x).join('')}</div><div class="wmain">${inner}</div></div>`;
 }
 function meetingHead(right){
