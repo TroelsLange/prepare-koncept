@@ -60,7 +60,7 @@ function shell(inner, active) {
     ['opfolgning', '#/opfolgning', ic.track, 'Beslutninger'], ['aarshjul', '#/aarshjul', ic.wheel, 'Årshjul']];
   return `<header class="whead">
     <button class="menu" onclick="toast('Menu – ikke en del af konceptet')" aria-label="Menu">${ic.menu}</button>
-    <div class="wlogo" onclick="go('#/')"><img src="logo.png" alt="" onerror="this.outerHTML='<div class=mk>P</div>'"><div><span>FirstAgenda</span><b>Prepare</b></div></div>
+    <div class="wlogo" onclick="go('#/')"><img src="logo.png" alt="FirstAgenda Prepare" onerror="this.outerHTML='<div class=mk>P</div><div><span>FirstAgenda</span><b>Prepare</b></div>'"></div>
     <span class="sp"></span>
     <label class="gsearch">${ic.search}<input placeholder="Søg i møder og beslutninger…" onkeydown="if(event.key==='Enter'){S.query=this.value;memSearch(this.value);go('#/opfolgning')}"></label>
     <span class="orgsel" onclick="toast('Kun Vestby Kommune i prototypen')">Vestby Kommune ▾</span>
